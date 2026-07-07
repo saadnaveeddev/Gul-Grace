@@ -9,19 +9,43 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as WeddingPreservationRouteImport } from './routes/wedding-preservation'
 import { Route as ShopRouteImport } from './routes/shop'
+import { Route as GalleryRouteImport } from './routes/gallery'
 import { Route as CustomOrderRouteImport } from './routes/custom-order'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProductSlugRouteImport } from './routes/product.$slug'
 
+const WeddingPreservationRoute = WeddingPreservationRouteImport.update({
+  id: '/wedding-preservation',
+  path: '/wedding-preservation',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ShopRoute = ShopRouteImport.update({
   id: '/shop',
   path: '/shop',
   getParentRoute: () => rootRouteImport,
 } as any)
+const GalleryRoute = GalleryRouteImport.update({
+  id: '/gallery',
+  path: '/gallery',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CustomOrderRoute = CustomOrderRouteImport.update({
   id: '/custom-order',
   path: '/custom-order',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -37,40 +61,88 @@ const ProductSlugRoute = ProductSlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
   '/custom-order': typeof CustomOrderRoute
+  '/gallery': typeof GalleryRoute
   '/shop': typeof ShopRoute
+  '/wedding-preservation': typeof WeddingPreservationRoute
   '/product/$slug': typeof ProductSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
   '/custom-order': typeof CustomOrderRoute
+  '/gallery': typeof GalleryRoute
   '/shop': typeof ShopRoute
+  '/wedding-preservation': typeof WeddingPreservationRoute
   '/product/$slug': typeof ProductSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
   '/custom-order': typeof CustomOrderRoute
+  '/gallery': typeof GalleryRoute
   '/shop': typeof ShopRoute
+  '/wedding-preservation': typeof WeddingPreservationRoute
   '/product/$slug': typeof ProductSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/custom-order' | '/shop' | '/product/$slug'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/custom-order'
+    | '/gallery'
+    | '/shop'
+    | '/wedding-preservation'
+    | '/product/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/custom-order' | '/shop' | '/product/$slug'
-  id: '__root__' | '/' | '/custom-order' | '/shop' | '/product/$slug'
+  to:
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/custom-order'
+    | '/gallery'
+    | '/shop'
+    | '/wedding-preservation'
+    | '/product/$slug'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/custom-order'
+    | '/gallery'
+    | '/shop'
+    | '/wedding-preservation'
+    | '/product/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
+  ContactRoute: typeof ContactRoute
   CustomOrderRoute: typeof CustomOrderRoute
+  GalleryRoute: typeof GalleryRoute
   ShopRoute: typeof ShopRoute
+  WeddingPreservationRoute: typeof WeddingPreservationRoute
   ProductSlugRoute: typeof ProductSlugRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/wedding-preservation': {
+      id: '/wedding-preservation'
+      path: '/wedding-preservation'
+      fullPath: '/wedding-preservation'
+      preLoaderRoute: typeof WeddingPreservationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/shop': {
       id: '/shop'
       path: '/shop'
@@ -78,11 +150,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShopRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/gallery': {
+      id: '/gallery'
+      path: '/gallery'
+      fullPath: '/gallery'
+      preLoaderRoute: typeof GalleryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/custom-order': {
       id: '/custom-order'
       path: '/custom-order'
       fullPath: '/custom-order'
       preLoaderRoute: typeof CustomOrderRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -104,8 +197,12 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
+  ContactRoute: ContactRoute,
   CustomOrderRoute: CustomOrderRoute,
+  GalleryRoute: GalleryRoute,
   ShopRoute: ShopRoute,
+  WeddingPreservationRoute: WeddingPreservationRoute,
   ProductSlugRoute: ProductSlugRoute,
 }
 export const routeTree = rootRouteImport
