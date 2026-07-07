@@ -81,11 +81,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         property: "og:description",
         content:
-          "Premium handmade resin jewelry, preserved flower keepsakes, wedding bouquet preservation, and personalized gifts in Pakistan.",
+          "Shop premium handmade resin jewelry, preserved flower keepsakes, wedding bouquet preservation, and personalized gifts by Gul & Grace in Pakistan.",
       },
       { property: "og:type", content: "website" },
       { property: "og:site_name", content: "Gul & Grace" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Gul & Grace | Handmade Resin Art & Preserved Flower Keepsakes in Pakistan" },
+      { name: "twitter:description", content: "Shop premium handmade resin jewelry, preserved flower keepsakes, wedding bouquet preservation, and personalized gifts by Gul & Grace in Pakistan." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/753fa7d4-ab68-46c3-aec5-7bcdb9cb4247/id-preview-2b912b08--d1e7adc2-2a94-48ec-9f32-563fd629d3c5.lovable.app-1783453257351.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/753fa7d4-ab68-46c3-aec5-7bcdb9cb4247/id-preview-2b912b08--d1e7adc2-2a94-48ec-9f32-563fd629d3c5.lovable.app-1783453257351.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
