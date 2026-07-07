@@ -10,10 +10,13 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as WeddingPreservationRouteImport } from './routes/wedding-preservation'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ShopRouteImport } from './routes/shop'
 import { Route as GalleryRouteImport } from './routes/gallery'
 import { Route as CustomOrderRouteImport } from './routes/custom-order'
 import { Route as ContactRouteImport } from './routes/contact'
+import { Route as CheckoutRouteImport } from './routes/checkout'
+import { Route as CartRouteImport } from './routes/cart'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProductSlugRouteImport } from './routes/product.$slug'
@@ -21,6 +24,11 @@ import { Route as ProductSlugRouteImport } from './routes/product.$slug'
 const WeddingPreservationRoute = WeddingPreservationRouteImport.update({
   id: '/wedding-preservation',
   path: '/wedding-preservation',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ShopRoute = ShopRouteImport.update({
@@ -43,6 +51,16 @@ const ContactRoute = ContactRouteImport.update({
   path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CheckoutRoute = CheckoutRouteImport.update({
+  id: '/checkout',
+  path: '/checkout',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CartRoute = CartRouteImport.update({
+  id: '/cart',
+  path: '/cart',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
@@ -62,20 +80,26 @@ const ProductSlugRoute = ProductSlugRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/cart': typeof CartRoute
+  '/checkout': typeof CheckoutRoute
   '/contact': typeof ContactRoute
   '/custom-order': typeof CustomOrderRoute
   '/gallery': typeof GalleryRoute
   '/shop': typeof ShopRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/wedding-preservation': typeof WeddingPreservationRoute
   '/product/$slug': typeof ProductSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/cart': typeof CartRoute
+  '/checkout': typeof CheckoutRoute
   '/contact': typeof ContactRoute
   '/custom-order': typeof CustomOrderRoute
   '/gallery': typeof GalleryRoute
   '/shop': typeof ShopRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/wedding-preservation': typeof WeddingPreservationRoute
   '/product/$slug': typeof ProductSlugRoute
 }
@@ -83,10 +107,13 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/cart': typeof CartRoute
+  '/checkout': typeof CheckoutRoute
   '/contact': typeof ContactRoute
   '/custom-order': typeof CustomOrderRoute
   '/gallery': typeof GalleryRoute
   '/shop': typeof ShopRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/wedding-preservation': typeof WeddingPreservationRoute
   '/product/$slug': typeof ProductSlugRoute
 }
@@ -95,30 +122,39 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
+    | '/cart'
+    | '/checkout'
     | '/contact'
     | '/custom-order'
     | '/gallery'
     | '/shop'
+    | '/sitemap.xml'
     | '/wedding-preservation'
     | '/product/$slug'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
+    | '/cart'
+    | '/checkout'
     | '/contact'
     | '/custom-order'
     | '/gallery'
     | '/shop'
+    | '/sitemap.xml'
     | '/wedding-preservation'
     | '/product/$slug'
   id:
     | '__root__'
     | '/'
     | '/about'
+    | '/cart'
+    | '/checkout'
     | '/contact'
     | '/custom-order'
     | '/gallery'
     | '/shop'
+    | '/sitemap.xml'
     | '/wedding-preservation'
     | '/product/$slug'
   fileRoutesById: FileRoutesById
@@ -126,10 +162,13 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  CartRoute: typeof CartRoute
+  CheckoutRoute: typeof CheckoutRoute
   ContactRoute: typeof ContactRoute
   CustomOrderRoute: typeof CustomOrderRoute
   GalleryRoute: typeof GalleryRoute
   ShopRoute: typeof ShopRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   WeddingPreservationRoute: typeof WeddingPreservationRoute
   ProductSlugRoute: typeof ProductSlugRoute
 }
@@ -141,6 +180,13 @@ declare module '@tanstack/react-router' {
       path: '/wedding-preservation'
       fullPath: '/wedding-preservation'
       preLoaderRoute: typeof WeddingPreservationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/shop': {
@@ -171,6 +217,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/checkout': {
+      id: '/checkout'
+      path: '/checkout'
+      fullPath: '/checkout'
+      preLoaderRoute: typeof CheckoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cart': {
+      id: '/cart'
+      path: '/cart'
+      fullPath: '/cart'
+      preLoaderRoute: typeof CartRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/about': {
       id: '/about'
       path: '/about'
@@ -198,10 +258,13 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  CartRoute: CartRoute,
+  CheckoutRoute: CheckoutRoute,
   ContactRoute: ContactRoute,
   CustomOrderRoute: CustomOrderRoute,
   GalleryRoute: GalleryRoute,
   ShopRoute: ShopRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   WeddingPreservationRoute: WeddingPreservationRoute,
   ProductSlugRoute: ProductSlugRoute,
 }
