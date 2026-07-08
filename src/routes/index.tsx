@@ -90,9 +90,9 @@ function Index() {
               Handcrafted resin keepsakes made to preserve flowers, emotions,
               and life's most meaningful moments.
             </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Link to="/shop" className="btn-gold">Shop Collection</Link>
-              <Link to="/custom-order" className="btn-outline-gold">Create a Custom Keepsake</Link>
+            <div className="mt-8 flex flex-col sm:flex-row gap-3">
+              <Link to="/shop" className="btn-gold justify-center">Shop Collection</Link>
+              <Link to="/custom-order" className="btn-outline-gold justify-center">Create a Custom Keepsake</Link>
             </div>
           </div>
         </div>
@@ -211,7 +211,7 @@ function Index() {
         <img src={weddingHero} alt="Preserved bridal bouquet of blush roses in a clear resin block beside wedding rings" width={1920} height={1080} loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-l from-background/95 via-background/70 to-transparent" />
         <div className="container-luxe relative flex min-h-[65vh] items-center justify-end py-20">
-          <div className="max-w-lg text-right">
+          <div className="max-w-lg text-center sm:text-right flex flex-col items-center sm:items-end w-full">
             <p className="eyebrow">For Brides</p>
             <h2 className="mt-3 font-display text-3xl leading-tight sm:text-4xl">
               Preserve Your Wedding Flowers Forever.
@@ -221,8 +221,8 @@ function Index() {
               resin blocks, trays, frames, and jewelry. For the memories too
               special to leave behind.
             </p>
-            <div className="mt-7 flex justify-end">
-              <Link to="/wedding-preservation" className="btn-gold">Book Wedding Preservation</Link>
+            <div className="mt-7 w-full sm:w-auto">
+              <Link to="/wedding-preservation" className="btn-gold w-full sm:w-auto justify-center">Book Wedding Preservation</Link>
             </div>
           </div>
         </div>
