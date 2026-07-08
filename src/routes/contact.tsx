@@ -93,7 +93,7 @@ function ContactPage() {
             <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-secondary"><Instagram className="h-5 w-5 text-primary" /></span>
             <span>
               <span className="block font-medium">Instagram</span>
-              <span className="text-sm text-muted-foreground">@gulandgrace — daily making process</span>
+              <span className="text-sm text-muted-foreground">@gulngracepk — daily making process</span>
             </span>
           </a>
           <a href={SOCIALS.tiktok} target="_blank" rel="noreferrer" className="flex items-center gap-4 rounded-2xl border border-primary/25 bg-card p-5 transition-colors hover:bg-secondary/40">
@@ -107,7 +107,7 @@ function ContactPage() {
             <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-secondary"><Mail className="h-5 w-5 text-primary" /></span>
             <span>
               <span className="block font-medium">Email</span>
-              <span className="text-sm text-muted-foreground">hello@gulandgrace.pk</span>
+              <span className="text-sm text-muted-foreground">[gulngracepk@gmail.com]</span>
             </span>
           </div>
           <div className="flex items-center gap-4 rounded-2xl border border-primary/25 bg-card p-5">

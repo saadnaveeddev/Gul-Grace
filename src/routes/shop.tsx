@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
+import { SlidersHorizontal } from "lucide-react";
 import { categories, products } from "@/data/products";
 import { ProductCard } from "@/components/ProductCard";
 
@@ -46,6 +47,29 @@ function ShopPage() {
   const [customizableOnly, setCustomizableOnly] = useState(false);
   const [bestOnly, setBestOnly] = useState(false);
   const [newOnly, setNewOnly] = useState(false);
+  const [showMobileFilters, setShowMobileFilters] = useState(false);
+
+  const activeFiltersCount = useMemo(() => {
+    let count = 0;
+    if (category !== "all") count++;
+    if (price >= 0) count++;
+    if (occasion !== "all") count++;
+    if (color !== "all") count++;
+    if (customizableOnly) count++;
+    if (bestOnly) count++;
+    if (newOnly) count++;
+    return count;
+  }, [category, price, occasion, color, customizableOnly, bestOnly, newOnly]);
+
+  const resetFilters = () => {
+    setCategory("all");
+    setPrice(-1);
+    setOccasion("all");
+    setColor("all");
+    setCustomizableOnly(false);
+    setBestOnly(false);
+    setNewOnly(false);
+  };
 
   const filtered = useMemo(() => {
     return products.filter((p) => {
@@ -76,9 +100,33 @@ function ShopPage() {
         </p>
       </div>
 
+      {/* Mobile Filters Toggle Button */}
+      <div className="mb-6 flex items-center justify-between gap-4 lg:hidden">
+        <button
+          onClick={() => setShowMobileFilters(!showMobileFilters)}
+          className="flex items-center gap-2 rounded-full border border-primary px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.1em] bg-card hover:bg-secondary/40 transition-colors"
+        >
+          <SlidersHorizontal className="h-4 w-4 text-primary" />
+          {showMobileFilters ? "Hide Filters" : "Show Filters"}
+          {activeFiltersCount > 0 && (
+            <span className="ml-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[10px] text-primary-foreground font-bold">
+              {activeFiltersCount}
+            </span>
+          )}
+        </button>
+        {activeFiltersCount > 0 && (
+          <button
+            onClick={resetFilters}
+            className="text-xs uppercase tracking-[0.1em] text-muted-foreground underline underline-offset-4"
+          >
+            Clear All
+          </button>
+        )}
+      </div>
+
       <div className="grid gap-10 lg:grid-cols-[16rem_1fr]">
         {/* Filters */}
-        <aside className="space-y-6">
+        <aside className={`space-y-6 lg:block ${showMobileFilters ? "block" : "hidden"}`}>
           <div>
             <p className="eyebrow mb-2">Category</p>
             <select value={category} onChange={(e) => setCategory(e.target.value)} className={selectCls}>

@@ -69,7 +69,7 @@ function WeddingPage() {
               From your Nikkah to your rukhsati, your flowers carried the moment.
               We preserve them in resin so the memory never leaves your hands.
             </p>
-            <a href={waLink("Hello Gul & Grace! I'd like a wedding bouquet preservation consultation.")} target="_blank" rel="noreferrer" className="btn-gold mt-8">
+            <a href={waLink("Hello Gul & Grace! I'd like a wedding bouquet preservation consultation.")} target="_blank" rel="noreferrer" className="btn-gold mt-8 w-full sm:w-auto justify-center">
               <MessageCircle className="h-4 w-4" /> Free WhatsApp Consultation
             </a>
           </div>

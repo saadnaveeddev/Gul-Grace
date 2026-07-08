@@ -90,7 +90,9 @@ function AboutPage() {
             sealed with a dried flower sprig — because receiving your memory
             back should feel like a moment of its own.
           </p>
-          <Link to="/shop" className="btn-gold mt-7">Explore the Collection</Link>
+          <div className="mt-7">
+            <Link to="/shop" className="btn-gold w-full sm:w-auto justify-center">Explore the Collection</Link>
+          </div>
         </div>
         <div className="overflow-hidden rounded-3xl gold-border">
           <img src={packaging} alt="Premium Gul & Grace gift packaging with gold ribbon and dried flowers" width={768} height={768} loading="lazy" className="w-full object-cover" />

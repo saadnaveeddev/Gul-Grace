@@ -83,6 +83,13 @@ function CustomOrderPage() {
         <p className="mt-3 text-sm text-muted-foreground">For the memories too special to leave behind.</p>
       </div>
 
+      {/* Mobile Step Title */}
+      <div className="mb-4 text-center sm:hidden animate-fade-in">
+        <span className="text-xs font-semibold uppercase tracking-widest text-primary">
+          Step {step + 1} of 5: {stepTitles[step]}
+        </span>
+      </div>
+
       {/* Progress */}
       <div className="mb-10 flex items-center justify-between gap-1">
         {stepTitles.map((t, i) => (

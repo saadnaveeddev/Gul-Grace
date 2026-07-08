@@ -162,21 +162,23 @@ function ProductPage() {
           )}
 
           {/* Qty + actions */}
-          <div className="mt-7 flex flex-wrap items-center gap-3">
-            <div className="flex items-center rounded-full border border-input">
-              <button aria-label="Decrease quantity" onClick={() => setQty(Math.max(1, qty - 1))} className="grid h-11 w-11 place-items-center hover:text-primary"><Minus className="h-4 w-4" /></button>
-              <span className="w-8 text-center text-sm">{qty}</span>
-              <button aria-label="Increase quantity" onClick={() => setQty(qty + 1)} className="grid h-11 w-11 place-items-center hover:text-primary"><Plus className="h-4 w-4" /></button>
+          <div className="mt-7 flex flex-col sm:flex-row sm:items-center gap-3">
+            <div className="flex gap-3 flex-1 sm:flex-none">
+              <div className="flex items-center rounded-full border border-input shrink-0 bg-card">
+                <button aria-label="Decrease quantity" onClick={() => setQty(Math.max(1, qty - 1))} className="grid h-11 w-11 place-items-center hover:text-primary"><Minus className="h-4 w-4" /></button>
+                <span className="w-8 text-center text-sm">{qty}</span>
+                <button aria-label="Increase quantity" onClick={() => setQty(qty + 1)} className="grid h-11 w-11 place-items-center hover:text-primary"><Plus className="h-4 w-4" /></button>
+              </div>
+              <button onClick={add} className="btn-outline-gold flex-1 sm:flex-none justify-center">
+                <ShoppingBag className="h-4 w-4" /> Add to Cart
+              </button>
             </div>
-            <button onClick={add} className="btn-outline-gold flex-1 sm:flex-none">
-              <ShoppingBag className="h-4 w-4" /> Add to Cart
-            </button>
             <button
               onClick={() => {
                 add();
                 navigate({ to: "/checkout" });
               }}
-              className="btn-gold flex-1 sm:flex-none"
+              className="btn-gold w-full sm:w-auto sm:flex-none justify-center"
             >
               Buy Now
             </button>
