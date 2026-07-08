@@ -284,7 +284,7 @@ function Index() {
           {reels.map((r) => (
             <a
               key={r.label}
-              href="https://instagram.com/gulandgrace"
+              href="https://instagram.com/gulngracepk"
               target="_blank"
               rel="noreferrer"
               className="group relative overflow-hidden rounded-2xl"
