@@ -1,8 +1,8 @@
 import { Link } from "@tanstack/react-router";
-import { ShoppingBag } from "lucide-react";
+import { MessageCircle, ShoppingBag } from "lucide-react";
 import type { Product } from "@/data/products";
 import { useCart } from "@/lib/cart";
-import { formatPKR } from "@/lib/site";
+import { SOCIALS, waLink } from "@/lib/site";
 
 export function ProductCard({ product }: { product: Product }) {
   const { addItem } = useCart();
@@ -28,28 +28,28 @@ export function ProductCard({ product }: { product: Product }) {
             {product.name}
           </h3>
         </Link>
-        <p className="mt-1 text-sm text-muted-foreground">{formatPKR(product.price)}</p>
+        <p className="mt-1 text-xs text-muted-foreground italic">Price on inquiry</p>
         <div className="mt-auto pt-4 flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
           <button
             onClick={() =>
               addItem({
                 slug: product.slug,
                 name: product.name,
-                price: product.price,
                 image: product.image,
               })
             }
             className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-full bg-primary px-4 py-2.5 text-[0.68rem] font-medium uppercase tracking-[0.14em] text-primary-foreground transition-colors hover:bg-primary/90"
           >
-            <ShoppingBag className="h-3.5 w-3.5" /> Add to Cart
+            <ShoppingBag className="h-3.5 w-3.5" /> Add to List
           </button>
-          <Link
-            to="/product/$slug"
-            params={{ slug: product.slug }}
-            className="inline-flex items-center justify-center rounded-full border border-primary/50 px-4 py-2.5 text-[0.68rem] font-medium uppercase tracking-[0.14em] transition-colors hover:bg-primary/10"
+          <a
+            href={waLink(`Hello Gul & Grace! I'd like to know the price and details of "${product.name}".`)}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center justify-center gap-1.5 rounded-full border border-primary/50 px-4 py-2.5 text-[0.68rem] font-medium uppercase tracking-[0.14em] transition-colors hover:bg-primary/10"
           >
-            View
-          </Link>
+            <MessageCircle className="h-3.5 w-3.5" /> Inquire
+          </a>
         </div>
       </div>
     </div>

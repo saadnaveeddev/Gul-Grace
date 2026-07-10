@@ -10,7 +10,6 @@ import {
 export interface CartItem {
   slug: string;
   name: string;
-  price: number;
   image: string;
   qty: number;
   customization?: string;
@@ -23,7 +22,6 @@ interface CartContextValue {
   setQty: (slug: string, qty: number) => void;
   clear: () => void;
   count: number;
-  subtotal: number;
 }
 
 const CartContext = createContext<CartContextValue | null>(null);
@@ -74,7 +72,6 @@ export function CartProvider({ children }: { children: ReactNode }) {
         ),
       clear: () => setItems([]),
       count: items.reduce((s, i) => s + i.qty, 0),
-      subtotal: items.reduce((s, i) => s + i.price * i.qty, 0),
     };
   }, [items]);
 
