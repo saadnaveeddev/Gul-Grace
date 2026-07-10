@@ -3,6 +3,7 @@ import { useMemo, useState } from "react";
 import { SlidersHorizontal } from "lucide-react";
 import { categories, products } from "@/data/products";
 import { ProductCard } from "@/components/ProductCard";
+import { BrushDivider, GoldFlakes } from "@/components/ResinDecorations";
 
 interface ShopSearch {
   category?: string;
@@ -75,105 +76,114 @@ function ShopPage() {
   }, [category, occasion, color, customizableOnly, bestOnly, newOnly]);
 
   const selectCls =
-    "h-11 w-full rounded-full border border-input bg-card px-4 text-sm outline-none focus:border-primary";
+    "h-11 w-full rounded-full border border-primary/25 bg-card/80 backdrop-blur-sm px-4 text-sm outline-none focus:border-primary transition-shadow focus:shadow-[0_0_16px_rgba(183,155,108,0.12)]";
 
   return (
-    <main className="container-luxe py-14">
-      <div className="mb-10 text-center">
-        <p className="eyebrow">The Collection</p>
-        <h1 className="mt-2 font-display text-3xl sm:text-4xl">Shop Keepsakes</h1>
-        <p className="mt-3 text-sm text-muted-foreground">
-          Turn your flowers into a keepsake you can hold.
-        </p>
-      </div>
-
-      {/* Mobile Filters Toggle Button */}
-      <div className="mb-6 flex items-center justify-between gap-4 lg:hidden">
-        <button
-          onClick={() => setShowMobileFilters(!showMobileFilters)}
-          className="flex items-center gap-2 rounded-full border border-primary px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.1em] bg-card hover:bg-secondary/40 transition-colors"
-        >
-          <SlidersHorizontal className="h-4 w-4 text-primary" />
-          {showMobileFilters ? "Hide Filters" : "Show Filters"}
-          {activeFiltersCount > 0 && (
-            <span className="ml-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[10px] text-primary-foreground font-bold">
-              {activeFiltersCount}
-            </span>
-          )}
-        </button>
-        {activeFiltersCount > 0 && (
-          <button
-            onClick={resetFilters}
-            className="text-xs uppercase tracking-[0.1em] text-muted-foreground underline underline-offset-4"
-          >
-            Clear All
-          </button>
-        )}
-      </div>
-
-      <div className="grid gap-10 lg:grid-cols-[16rem_1fr]">
-        {/* Filters */}
-        <aside className={`space-y-6 lg:block ${showMobileFilters ? "block" : "hidden"}`}>
-          <div>
-            <p className="eyebrow mb-2">Category</p>
-            <select value={category} onChange={(e) => setCategory(e.target.value)} className={selectCls}>
-              <option value="all">All Categories</option>
-              {categories.map((c) => (
-                <option key={c.slug} value={c.slug}>{c.title}</option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <p className="eyebrow mb-2">Occasion</p>
-            <select value={occasion} onChange={(e) => setOccasion(e.target.value)} className={selectCls}>
-              <option value="all">Any Occasion</option>
-              {occasions.map((o) => (
-                <option key={o} value={o}>{o}</option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <p className="eyebrow mb-2">Color</p>
-            <select value={color} onChange={(e) => setColor(e.target.value)} className={selectCls}>
-              <option value="all">Any Color</option>
-              {colorOptions.map((c) => (
-                <option key={c} value={c}>{c}</option>
-              ))}
-            </select>
-          </div>
-          <div className="space-y-2.5 pt-1 text-sm">
-            <label className="flex items-center gap-2.5">
-              <input type="checkbox" checked={customizableOnly} onChange={(e) => setCustomizableOnly(e.target.checked)} className="h-4 w-4 accent-[#B79B6C]" />
-              Customizable
-            </label>
-            <label className="flex items-center gap-2.5">
-              <input type="checkbox" checked={bestOnly} onChange={(e) => setBestOnly(e.target.checked)} className="h-4 w-4 accent-[#B79B6C]" />
-              Best Sellers
-            </label>
-            <label className="flex items-center gap-2.5">
-              <input type="checkbox" checked={newOnly} onChange={(e) => setNewOnly(e.target.checked)} className="h-4 w-4 accent-[#B79B6C]" />
-              New Arrivals
-            </label>
-          </div>
-        </aside>
-
-        {/* Grid */}
-        <div>
-          <p className="mb-5 text-xs uppercase tracking-[0.18em] text-muted-foreground">
-            {filtered.length} piece{filtered.length === 1 ? "" : "s"}
+    <main className="relative">
+      {/* Hero heading */}
+      <section className="relative py-16 watercolor-gold overflow-hidden">
+        <GoldFlakes count={8} />
+        <div className="container-luxe text-center relative z-10">
+          <p className="eyebrow">The Collection</p>
+          <h1 className="mt-2 font-display text-3xl sm:text-4xl">Shop Keepsakes</h1>
+          <p className="mt-3 text-sm text-muted-foreground">
+            Turn your flowers into a keepsake you can hold.
           </p>
-          {filtered.length === 0 ? (
-            <div className="rounded-2xl border border-border bg-card p-14 text-center text-sm text-muted-foreground">
-              No pieces match these filters yet. Try widening your search — or{" "}
-              <a href="/custom-order" className="text-primary underline">request a custom piece</a>.
-            </div>
-          ) : (
-            <div className="grid grid-cols-2 gap-4 sm:gap-6 xl:grid-cols-3">
-              {filtered.map((p) => (
-                <ProductCard key={p.slug} product={p} />
-              ))}
-            </div>
+          <BrushDivider className="mt-5" />
+        </div>
+      </section>
+
+      <div className="container-luxe py-10">
+        {/* Mobile Filters Toggle Button */}
+        <div className="mb-6 flex items-center justify-between gap-4 lg:hidden">
+          <button
+            onClick={() => setShowMobileFilters(!showMobileFilters)}
+            className="flex items-center gap-2 rounded-full resin-card px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.1em] transition-all hover:shadow-[0_4px_16px_rgba(183,155,108,0.15)]"
+          >
+            <SlidersHorizontal className="h-4 w-4 text-primary" />
+            {showMobileFilters ? "Hide Filters" : "Show Filters"}
+            {activeFiltersCount > 0 && (
+              <span className="ml-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[10px] text-primary-foreground font-bold">
+                {activeFiltersCount}
+              </span>
+            )}
+          </button>
+          {activeFiltersCount > 0 && (
+            <button
+              onClick={resetFilters}
+              className="text-xs uppercase tracking-[0.1em] text-muted-foreground underline underline-offset-4 hover:text-primary transition-colors"
+            >
+              Clear All
+            </button>
           )}
+        </div>
+
+        <div className="grid gap-10 lg:grid-cols-[16rem_1fr]">
+          {/* Filters sidebar */}
+          <aside className={`space-y-6 lg:block ${showMobileFilters ? "block" : "hidden"}`}>
+            <div className="resin-card rounded-[1.5rem] p-5 space-y-6">
+              <div>
+                <p className="eyebrow mb-2">Category</p>
+                <select value={category} onChange={(e) => setCategory(e.target.value)} className={selectCls}>
+                  <option value="all">All Categories</option>
+                  {categories.map((c) => (
+                    <option key={c.slug} value={c.slug}>{c.title}</option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <p className="eyebrow mb-2">Occasion</p>
+                <select value={occasion} onChange={(e) => setOccasion(e.target.value)} className={selectCls}>
+                  <option value="all">Any Occasion</option>
+                  {occasions.map((o) => (
+                    <option key={o} value={o}>{o}</option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <p className="eyebrow mb-2">Color</p>
+                <select value={color} onChange={(e) => setColor(e.target.value)} className={selectCls}>
+                  <option value="all">Any Color</option>
+                  {colorOptions.map((c) => (
+                    <option key={c} value={c}>{c}</option>
+                  ))}
+                </select>
+              </div>
+              <div className="space-y-2.5 pt-1 text-sm">
+                <label className="flex items-center gap-2.5 cursor-pointer">
+                  <input type="checkbox" checked={customizableOnly} onChange={(e) => setCustomizableOnly(e.target.checked)} className="h-4 w-4 accent-[#B79B6C]" />
+                  Customizable
+                </label>
+                <label className="flex items-center gap-2.5 cursor-pointer">
+                  <input type="checkbox" checked={bestOnly} onChange={(e) => setBestOnly(e.target.checked)} className="h-4 w-4 accent-[#B79B6C]" />
+                  Best Sellers
+                </label>
+                <label className="flex items-center gap-2.5 cursor-pointer">
+                  <input type="checkbox" checked={newOnly} onChange={(e) => setNewOnly(e.target.checked)} className="h-4 w-4 accent-[#B79B6C]" />
+                  New Arrivals
+                </label>
+              </div>
+            </div>
+          </aside>
+
+          {/* Grid */}
+          <div>
+            <p className="mb-5 text-xs uppercase tracking-[0.18em] text-muted-foreground">
+              {filtered.length} piece{filtered.length === 1 ? "" : "s"}
+            </p>
+            {filtered.length === 0 ? (
+              <div className="resin-card rounded-[2rem] p-14 text-center text-sm text-muted-foreground">
+                No pieces match these filters yet. Try widening your search — or{" "}
+                <a href="/custom-order" className="text-primary underline">request a custom piece</a>.
+              </div>
+            ) : (
+              <div className="grid grid-cols-2 gap-5 sm:gap-7 xl:grid-cols-3">
+                {filtered.map((p, i) => (
+                  <ProductCard key={p.slug} product={p} index={i} />
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </main>
