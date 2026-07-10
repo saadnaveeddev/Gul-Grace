@@ -47,13 +47,39 @@ function CustomOrderPage() {
 
   const canNext =
     (step === 0 && !!form.productType) ||
-    (step === 1 && !!form.occasion) ||
+    step === 1 || // Occasion is optional
     step === 2 ||
     (step === 3 && !!form.name && !!form.phone && !!form.city);
 
-  const whatsappSummary = waLink(
-    `Hello Gul & Grace! I just submitted a custom order request.\n\nProduct: ${form.productType}\nOccasion: ${form.occasion}\nName: ${form.name}\nCity: ${form.city}\nColors: ${form.colors}\nBudget: ${form.budget}\nMemory: ${form.memory}`,
-  );
+  const buildWhatsAppMessage = () => {
+    const parts = [
+      "Hello Gul & Grace! I'd like to discuss a custom order.",
+      "",
+      `*Product:* ${form.productType}`
+    ];
+    
+    if (form.occasion) parts.push(`*Occasion:* ${form.occasion}`);
+    if (form.colors) parts.push(`*Preferred Colors:* ${form.colors}`);
+    if (form.budget) parts.push(`*Budget:* ${form.budget}`);
+    if (form.deliveryDate) parts.push(`*Delivery Date:* ${form.deliveryDate}`);
+    if (form.referenceNotes) parts.push(`*Reference/Notes:* ${form.referenceNotes}`);
+    if (form.memory) parts.push(`*Memory/Story:* ${form.memory}`);
+    
+    parts.push("");
+    parts.push("*My Details:*");
+    parts.push(`Name: ${form.name}`);
+    parts.push(`Phone: ${form.phone}`);
+    parts.push(`City: ${form.city}`);
+    if (form.address) parts.push(`Address: ${form.address}`);
+    
+    if (form.referenceFile) {
+        parts.push(`\n*(I will also share a reference file)*`);
+    }
+
+    return parts.join("\n");
+  };
+
+  const whatsappSummary = waLink(buildWhatsAppMessage());
 
   if (submitted) {
     return (
@@ -136,7 +162,7 @@ function CustomOrderPage() {
 
         {step === 1 && (
           <div>
-            <h2 className="font-display text-xl">Select the Occasion</h2>
+            <h2 className="font-display text-xl">Select the Occasion <span className="text-sm text-muted-foreground font-normal">(Optional)</span></h2>
             <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3">
               {occasions.map((o) => (
                 <button
@@ -185,11 +211,11 @@ function CustomOrderPage() {
               <input placeholder="Full name *" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className={inputCls} />
               <input placeholder="Phone / WhatsApp number *" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} className={inputCls} />
               <input placeholder="City *" value={form.city} onChange={(e) => setForm({ ...form, city: e.target.value })} className={inputCls} />
-              <input placeholder="Delivery address" value={form.address} onChange={(e) => setForm({ ...form, address: e.target.value })} className={inputCls} />
-              <input placeholder="Preferred colors" value={form.colors} onChange={(e) => setForm({ ...form, colors: e.target.value })} className={inputCls} />
-              <input placeholder="Preferred delivery date" value={form.deliveryDate} onChange={(e) => setForm({ ...form, deliveryDate: e.target.value })} className={inputCls} />
+              <input placeholder="Delivery address (optional)" value={form.address} onChange={(e) => setForm({ ...form, address: e.target.value })} className={inputCls} />
+              <input placeholder="Preferred colors (optional)" value={form.colors} onChange={(e) => setForm({ ...form, colors: e.target.value })} className={inputCls} />
+              <input placeholder="Preferred delivery date (optional)" value={form.deliveryDate} onChange={(e) => setForm({ ...form, deliveryDate: e.target.value })} className={inputCls} />
               <select value={form.budget} onChange={(e) => setForm({ ...form, budget: e.target.value })} className={inputCls}>
-                <option value="">Budget range</option>
+                <option value="">Budget range (optional)</option>
                 <option>Under Rs. 2,000</option>
                 <option>Rs. 2,000 – 5,000</option>
                 <option>Rs. 5,000 – 15,000</option>
@@ -197,7 +223,7 @@ function CustomOrderPage() {
               </select>
             </div>
             <textarea
-              placeholder="Your memory or story — tell us what this piece means to you"
+              placeholder="Your memory or story — tell us what this piece means to you (optional)"
               value={form.memory}
               onChange={(e) => setForm({ ...form, memory: e.target.value })}
               rows={4}
@@ -212,7 +238,7 @@ function CustomOrderPage() {
             <dl className="mt-5 space-y-3 text-sm">
               {[
                 ["Product", form.productType],
-                ["Occasion", form.occasion],
+                ["Occasion", form.occasion || "—"],
                 ["Reference", form.referenceFile || "—"],
                 ["Notes", form.referenceNotes || "—"],
                 ["Name", form.name],
@@ -246,7 +272,7 @@ function CustomOrderPage() {
               Continue
             </button>
           ) : (
-            <button onClick={() => setSubmitted(true)} className="btn-gold">Submit Request</button>
+            <a href={whatsappSummary} target="_blank" rel="noreferrer" className="btn-gold"><MessageCircle className="h-4 w-4" /> Get Order Info on WhatsApp</a>
           )}
         </div>
       </div>
