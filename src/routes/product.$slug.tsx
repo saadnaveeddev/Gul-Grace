@@ -1,10 +1,10 @@
 import { Link, createFileRoute, notFound, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { MessageCircle, Minus, Plus, ShoppingBag, Star } from "lucide-react";
+import { Instagram, MessageCircle, Minus, Plus, ShoppingBag, Star } from "lucide-react";
 import { getProduct, products } from "@/data/products";
 import { ProductCard } from "@/components/ProductCard";
 import { useCart } from "@/lib/cart";
-import { formatPKR, waLink } from "@/lib/site";
+import { SOCIALS, waLink } from "@/lib/site";
 
 export const Route = createFileRoute("/product/$slug")({
   loader: ({ params }) => {
@@ -38,8 +38,6 @@ export const Route = createFileRoute("/product/$slug")({
             brand: { "@type": "Brand", name: "Gul & Grace" },
             offers: {
               "@type": "Offer",
-              priceCurrency: "PKR",
-              price: product.price,
               availability: "https://schema.org/MadeToOrder",
             },
           }),
@@ -94,7 +92,6 @@ function ProductPage() {
       {
         slug: product.slug,
         name: product.name,
-        price: product.price,
         image: product.image,
         customization: customizationSummary || undefined,
       },
@@ -124,7 +121,7 @@ function ProductPage() {
         <div>
           <span className="text-[0.65rem] font-medium uppercase tracking-[0.22em] text-primary">{product.label}</span>
           <h1 className="mt-2 font-display text-3xl sm:text-4xl">{product.name}</h1>
-          <p className="mt-3 text-xl text-primary">{formatPKR(product.price)}</p>
+          <p className="mt-3 text-sm italic text-muted-foreground">Price available on inquiry — message us below</p>
           <p className="mt-4 leading-relaxed text-muted-foreground">{product.description}</p>
 
           {product.customizable && (
@@ -169,28 +166,37 @@ function ProductPage() {
                 <span className="w-8 text-center text-sm">{qty}</span>
                 <button aria-label="Increase quantity" onClick={() => setQty(qty + 1)} className="grid h-11 w-11 place-items-center hover:text-primary"><Plus className="h-4 w-4" /></button>
               </div>
-              <button onClick={add} className="btn-outline-gold flex-1 sm:flex-none justify-center">
-                <ShoppingBag className="h-4 w-4" /> Add to Cart
+              <button
+                onClick={() => {
+                  add();
+                  navigate({ to: "/cart" });
+                }}
+                className="btn-gold flex-1 sm:flex-none justify-center"
+              >
+                <ShoppingBag className="h-4 w-4" /> Add to Inquiry List
               </button>
             </div>
-            <button
-              onClick={() => {
-                add();
-                navigate({ to: "/checkout" });
-              }}
-              className="btn-gold w-full sm:w-auto sm:flex-none justify-center"
-            >
-              Buy Now
-            </button>
           </div>
-          <a
-            href={waLink(`Hello Gul & Grace! I'd like to ask about the "${product.name}" (${formatPKR(product.price)}).`)}
-            target="_blank"
-            rel="noreferrer"
-            className="mt-3 inline-flex items-center gap-2 text-sm text-primary underline-offset-4 hover:underline"
-          >
-            <MessageCircle className="h-4 w-4" /> Ask about this piece on WhatsApp
-          </a>
+
+          {/* Inquire buttons */}
+          <div className="mt-5 flex flex-col gap-2.5 sm:flex-row">
+            <a
+              href={waLink(`Hello Gul & Grace! I'd like to know the price and details of "${product.name}".${customizationSummary ? `\n\nCustomization: ${customizationSummary}` : ""}`)}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center justify-center gap-2 rounded-full border border-primary/50 px-5 py-2.5 text-sm text-primary transition-colors hover:bg-primary/10"
+            >
+              <MessageCircle className="h-4 w-4" /> Inquire on WhatsApp
+            </a>
+            <a
+              href={SOCIALS.instagram}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center justify-center gap-2 rounded-full border border-primary/50 px-5 py-2.5 text-sm text-primary transition-colors hover:bg-primary/10"
+            >
+              <Instagram className="h-4 w-4" /> Message on Instagram
+            </a>
+          </div>
 
           {/* Shipping & care */}
           <div className="mt-8 space-y-4 border-t border-border pt-6 text-sm text-muted-foreground">

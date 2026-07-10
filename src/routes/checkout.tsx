@@ -1,48 +1,42 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { Check, MessageCircle } from "lucide-react";
+import { Check, Instagram, MessageCircle } from "lucide-react";
 import logo from "@/assets/logo.png";
 import { useCart } from "@/lib/cart";
-import { formatPKR, waLink } from "@/lib/site";
+import { SOCIALS, waLink } from "@/lib/site";
 
 export const Route = createFileRoute("/checkout")({
   head: () => ({
     meta: [
       { title: "Checkout | Gul & Grace" },
-      { name: "description", content: "Complete your order of handmade resin keepsakes from Gul & Grace." },
+      { name: "description", content: "Complete your inquiry for handmade resin keepsakes from Gul & Grace." },
       { name: "robots", content: "noindex" },
     ],
   }),
   component: CheckoutPage,
 });
 
-const paymentMethods = [
-  { id: "cod", label: "Cash on Delivery", note: "Pay when your keepsake arrives" },
-  { id: "bank", label: "Bank Transfer", note: "Details shared on WhatsApp after ordering" },
-  { id: "wallet", label: "Easypaisa / JazzCash", note: "Details shared on WhatsApp after ordering" },
-  { id: "card", label: "Card Payment", note: "Coming soon", disabled: true },
-];
-
 const statuses = ["Order Received", "In Design Review", "In Production", "Quality Check", "Packed", "Shipped", "Delivered"];
 
 const inputCls = "h-12 w-full rounded-xl border border-input bg-card px-4 text-sm outline-none focus:border-primary";
 
 function CheckoutPage() {
-  const { items, subtotal, clear } = useCart();
+  const { items, clear } = useCart();
   const [placed, setPlaced] = useState(false);
-  const [orderSnapshot, setOrderSnapshot] = useState<{ summary: string; total: number }>({ summary: "", total: 0 });
+  const [orderSnapshot, setOrderSnapshot] = useState<{ summary: string }>({ summary: "" });
   const [form, setForm] = useState({
     name: "",
     phone: "",
     email: "",
     city: "",
     address: "",
-    payment: "cod",
     orderNotes: "",
     giftNote: "",
   });
 
   if (placed) {
+    const waMessage = `Hello Gul & Grace! I'd like to place an order for the following items. Can I get the prices and more details?\n\n${orderSnapshot.summary}\n\nName: ${form.name}\nPhone: ${form.phone}\nCity: ${form.city}\nAddress: ${form.address}${form.orderNotes ? `\nNotes: ${form.orderNotes}` : ""}${form.giftNote ? `\nGift note: ${form.giftNote}` : ""}`;
+
     return (
       <main className="container-luxe flex min-h-[70vh] items-center justify-center py-16">
         <div className="w-full max-w-lg text-center">
@@ -50,10 +44,10 @@ function CheckoutPage() {
           <div className="mx-auto mt-5 grid h-14 w-14 place-items-center rounded-full bg-secondary">
             <Check className="h-6 w-6 text-primary" />
           </div>
-          <h1 className="mt-5 font-display text-3xl">Your order has been received.</h1>
+          <h1 className="mt-5 font-display text-3xl">Your inquiry has been sent!</h1>
           <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-            Thank you for trusting us with your memory. Our team will confirm
-            your order on WhatsApp shortly.
+            Thank you for trusting us with your memory. Our team will share pricing
+            and confirm your order on WhatsApp shortly.
           </p>
           <div className="mt-8 rounded-2xl border border-primary/25 bg-card p-6 text-left">
             <p className="eyebrow mb-4">Your Order Journey</p>
@@ -68,14 +62,24 @@ function CheckoutPage() {
               ))}
             </ol>
           </div>
-          <a
-            href={waLink(`Hello Gul & Grace! I just placed an order.\n\n${orderSnapshot.summary}\nTotal: ${formatPKR(orderSnapshot.total)}\nName: ${form.name}\nCity: ${form.city}`)}
-            target="_blank"
-            rel="noreferrer"
-            className="btn-gold mt-7"
-          >
-            <MessageCircle className="h-4 w-4" /> Confirm on WhatsApp
-          </a>
+          <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:justify-center">
+            <a
+              href={waLink(waMessage)}
+              target="_blank"
+              rel="noreferrer"
+              className="btn-gold"
+            >
+              <MessageCircle className="h-4 w-4" /> Confirm on WhatsApp
+            </a>
+            <a
+              href={SOCIALS.instagram}
+              target="_blank"
+              rel="noreferrer"
+              className="btn-outline-gold"
+            >
+              <Instagram className="h-4 w-4" /> Message on Instagram
+            </a>
+          </div>
         </div>
       </main>
     );
@@ -98,8 +102,7 @@ function CheckoutPage() {
         onSubmit={(e) => {
           e.preventDefault();
           setOrderSnapshot({
-            summary: items.map((i) => `${i.qty}x ${i.name}`).join("\n"),
-            total: subtotal,
+            summary: items.map((i) => `• ${i.qty}× ${i.name}${i.customization ? ` — ${i.customization}` : ""}`).join("\n"),
           });
           setPlaced(true);
           clear();
@@ -124,32 +127,6 @@ function CheckoutPage() {
           </section>
 
           <section>
-            <p className="eyebrow mb-4">Payment Method</p>
-            <div className="space-y-2.5">
-              {paymentMethods.map((m) => (
-                <label
-                  key={m.id}
-                  className={`flex items-center gap-3.5 rounded-2xl border p-4 ${m.disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer"} ${form.payment === m.id ? "border-primary bg-secondary/40" : "border-border"}`}
-                >
-                  <input
-                    type="radio"
-                    name="payment"
-                    value={m.id}
-                    disabled={m.disabled}
-                    checked={form.payment === m.id}
-                    onChange={() => setForm({ ...form, payment: m.id })}
-                    className="h-4 w-4 accent-[#B79B6C]"
-                  />
-                  <span>
-                    <span className="block text-sm font-medium">{m.label}</span>
-                    <span className="text-xs text-muted-foreground">{m.note}</span>
-                  </span>
-                </label>
-              ))}
-            </div>
-          </section>
-
-          <section>
             <p className="eyebrow mb-4">Notes</p>
             <textarea placeholder="Order notes (optional)" value={form.orderNotes} onChange={(e) => setForm({ ...form, orderNotes: e.target.value })} rows={2} className="w-full rounded-xl border border-input bg-card px-4 py-3 text-sm outline-none focus:border-primary" />
             <textarea placeholder="Gift note — we'll write it by hand (optional)" value={form.giftNote} onChange={(e) => setForm({ ...form, giftNote: e.target.value })} rows={2} className="mt-3 w-full rounded-xl border border-input bg-card px-4 py-3 text-sm outline-none focus:border-primary" />
@@ -164,18 +141,16 @@ function CheckoutPage() {
               <li key={i.slug + (i.customization ?? "")} className="flex items-center gap-3 text-sm">
                 <img src={i.image} alt={i.name} width={48} height={48} loading="lazy" className="h-12 w-12 shrink-0 rounded-lg object-cover" />
                 <span className="min-w-0 flex-1 truncate">{i.qty}× {i.name}</span>
-                <span className="shrink-0">{formatPKR(i.price * i.qty)}</span>
               </li>
             ))}
           </ul>
           <div className="mt-5 space-y-1.5 border-t border-border pt-4 text-sm">
-            <div className="flex justify-between"><span className="text-muted-foreground">Subtotal</span><span>{formatPKR(subtotal)}</span></div>
-            <div className="flex justify-between"><span className="text-muted-foreground">Shipping</span><span>Confirmed on WhatsApp</span></div>
-            <div className="flex justify-between pt-2 font-medium"><span>Total</span><span className="text-primary">{formatPKR(subtotal)}</span></div>
+            <div className="flex justify-between"><span className="text-muted-foreground">Pricing</span><span className="italic text-muted-foreground">Shared on WhatsApp</span></div>
+            <div className="flex justify-between"><span className="text-muted-foreground">Shipping</span><span className="italic text-muted-foreground">Confirmed on WhatsApp</span></div>
           </div>
-          <button type="submit" className="btn-gold mt-6 w-full">Confirm Order</button>
+          <button type="submit" className="btn-gold mt-6 w-full">Send Inquiry</button>
           <p className="mt-3 text-center text-xs text-muted-foreground">
-            We'll confirm your order and payment details on WhatsApp.
+            We'll share pricing and confirm your order on WhatsApp.
           </p>
         </aside>
       </form>
