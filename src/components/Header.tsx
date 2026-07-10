@@ -20,11 +20,11 @@ export function Header() {
   const { count } = useCart();
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-background/90 backdrop-blur-md">
+    <header className="sticky top-0 z-50 border-b border-primary/10 bg-background/85 backdrop-blur-xl" style={{ boxShadow: '0 4px 30px rgba(183, 155, 108, 0.06)' }}>
       <div className="container-luxe flex h-16 items-center justify-between gap-3 sm:h-18">
         <div className="flex min-w-0 items-center gap-3">
           <button
-            className="grid h-10 w-10 shrink-0 place-items-center rounded-full hover:bg-muted lg:hidden"
+            className="grid h-10 w-10 shrink-0 place-items-center rounded-full hover:bg-secondary/60 transition-colors lg:hidden"
             aria-label="Open menu"
             onClick={() => setOpen(!open)}
           >
@@ -40,9 +40,11 @@ export function Header() {
               to={n.to}
               activeOptions={{ exact: n.to === "/" }}
               activeProps={{ className: "text-primary" }}
-              className="text-[0.72rem] font-medium uppercase tracking-[0.18em] text-foreground/80 transition-colors hover:text-primary"
+              className="relative text-[0.72rem] font-medium uppercase tracking-[0.18em] text-foreground/80 transition-colors hover:text-primary group"
             >
               {n.label}
+              {/* Brush underline on hover */}
+              <span className="absolute -bottom-1 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-primary/50 to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
             </Link>
           ))}
         </nav>
@@ -51,25 +53,25 @@ export function Header() {
           <Link
             to="/shop"
             aria-label="Search products"
-            className="hidden h-10 w-10 place-items-center rounded-full hover:bg-muted sm:grid"
+            className="hidden h-10 w-10 place-items-center rounded-full hover:bg-secondary/60 transition-colors sm:grid"
           >
             <Search className="h-[18px] w-[18px]" />
           </Link>
           <Link
             to="/gallery"
             aria-label="Wishlist"
-            className="hidden h-10 w-10 place-items-center rounded-full hover:bg-muted sm:grid"
+            className="hidden h-10 w-10 place-items-center rounded-full hover:bg-secondary/60 transition-colors sm:grid"
           >
             <Heart className="h-[18px] w-[18px]" />
           </Link>
           <Link
             to="/cart"
             aria-label="Cart"
-            className="relative grid h-10 w-10 place-items-center rounded-full hover:bg-muted"
+            className="relative grid h-10 w-10 place-items-center rounded-full hover:bg-secondary/60 transition-colors"
           >
             <ShoppingBag className="h-[18px] w-[18px]" />
             {count > 0 && (
-              <span className="absolute -right-0.5 -top-0.5 grid h-4.5 min-w-4.5 place-items-center rounded-full bg-primary px-1 text-[0.6rem] font-semibold text-primary-foreground">
+              <span className="absolute -right-0.5 -top-0.5 grid h-4.5 min-w-4.5 place-items-center rounded-full bg-primary px-1 text-[0.6rem] font-semibold text-primary-foreground shadow-[0_0_8px_rgba(183,155,108,0.4)]">
                 {count}
               </span>
             )}
@@ -78,7 +80,7 @@ export function Header() {
             href={waLink("Hello Gul & Grace! I'd love to know more about your keepsakes.")}
             target="_blank"
             rel="noreferrer"
-            className="ml-1 hidden items-center gap-2 rounded-full border border-primary px-4 py-2 text-[0.7rem] font-medium uppercase tracking-[0.14em] text-foreground transition-colors hover:bg-primary hover:text-primary-foreground md:inline-flex"
+            className="ml-1 hidden items-center gap-2 rounded-full border border-primary/40 px-4 py-2 text-[0.7rem] font-medium uppercase tracking-[0.14em] text-foreground transition-all duration-300 hover:bg-primary hover:text-primary-foreground hover:shadow-[0_4px_16px_rgba(183,155,108,0.25)] md:inline-flex"
           >
             <MessageCircle className="h-4 w-4" />
             WhatsApp
@@ -87,7 +89,7 @@ export function Header() {
       </div>
 
       {open && (
-        <nav className="border-t border-border bg-background lg:hidden">
+        <nav className="border-t border-primary/10 bg-background/95 backdrop-blur-xl lg:hidden">
           <div className="container-luxe flex flex-col py-4">
             {nav.map((n) => (
               <Link
@@ -96,7 +98,7 @@ export function Header() {
                 onClick={() => setOpen(false)}
                 activeOptions={{ exact: n.to === "/" }}
                 activeProps={{ className: "text-primary" }}
-                className="border-b border-border/60 py-3.5 text-sm uppercase tracking-[0.16em] last:border-0"
+                className="border-b border-primary/10 py-3.5 text-sm uppercase tracking-[0.16em] last:border-0 transition-colors hover:text-primary"
               >
                 {n.label}
               </Link>

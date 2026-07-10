@@ -7,6 +7,7 @@ import prodBlock from "@/assets/prod-block.jpg";
 import prodTray from "@/assets/prod-tray.jpg";
 import prodPendant from "@/assets/prod-pendant.jpg";
 import { waLink } from "@/lib/site";
+import { BrushDivider, GoldFlakes, ResinFrame } from "@/components/ResinDecorations";
 
 export const Route = createFileRoute("/wedding-preservation")({
   head: () => ({
@@ -46,7 +47,14 @@ const faqs = [
   { q: "How much does it cost?", a: "Pricing depends on the piece and bouquet size — blocks start around Rs. 12,000. Send an inquiry below and we'll share a full price guide." },
 ];
 
-const inputCls = "h-12 w-full rounded-xl border border-input bg-card px-4 text-sm outline-none focus:border-primary";
+const resinShapes = [
+  '30% 70% 66% 34% / 40% 30% 70% 60%',
+  '60% 40% 30% 70% / 50% 60% 40% 50%',
+  '40% 60% 55% 45% / 35% 55% 45% 65%',
+  '50% 50% 40% 60% / 60% 40% 60% 40%',
+];
+
+const inputCls = "h-12 w-full rounded-xl border border-primary/25 bg-card/80 backdrop-blur-sm px-4 text-sm outline-none focus:border-primary transition-shadow focus:shadow-[0_0_16px_rgba(183,155,108,0.12)]";
 
 function WeddingPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
@@ -58,12 +66,14 @@ function WeddingPage() {
       {/* Hero */}
       <section className="relative overflow-hidden">
         <img src={weddingHero} alt="Bridal bouquet preserved in a clear resin block with wedding rings, by Gul & Grace Pakistan" width={1920} height={1080} className="absolute inset-0 h-full w-full object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/70 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/75 to-transparent" />
+        <div className="absolute inset-0 watercolor-blush opacity-40" />
+        <GoldFlakes count={12} />
         <div className="container-luxe relative flex min-h-[70vh] items-center py-20">
           <div className="max-w-xl">
             <p className="eyebrow">Wedding Preservation</p>
             <h1 className="mt-3 font-display text-4xl leading-tight sm:text-5xl">
-              Your Flowers Held That Day. <em className="text-primary">Let Them Hold It Forever.</em>
+              Your Flowers Held That Day. <em className="text-primary brush-underline">Let Them Hold It Forever.</em>
             </h1>
             <p className="mt-5 max-w-md leading-relaxed text-muted-foreground">
               From your Nikkah to your rukhsati, your flowers carried the moment.
@@ -77,28 +87,35 @@ function WeddingPage() {
       </section>
 
       {/* What we preserve */}
-      <section className="container-luxe py-20 text-center">
-        <p className="eyebrow">What We Preserve</p>
-        <h2 className="mt-2 font-display text-3xl sm:text-4xl">Every Flower With a Story</h2>
-        <div className="mx-auto mt-8 flex max-w-2xl flex-wrap justify-center gap-3">
-          {preserves.map((p) => (
-            <span key={p} className="rounded-full border border-primary/40 bg-card px-5 py-2.5 text-sm">{p}</span>
-          ))}
+      <section className="relative py-24 watercolor-blush overflow-hidden">
+        <GoldFlakes count={6} />
+        <div className="container-luxe text-center relative z-10">
+          <p className="eyebrow">What We Preserve</p>
+          <h2 className="mt-2 font-display text-3xl sm:text-4xl">Every Flower With a <span className="brush-underline">Story</span></h2>
+          <div className="mx-auto mt-8 flex max-w-2xl flex-wrap justify-center gap-3">
+            {preserves.map((p) => (
+              <span key={p} className="rounded-full resin-card px-5 py-2.5 text-sm transition-all hover:shadow-[0_4px_16px_rgba(183,155,108,0.15)]">{p}</span>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* Options */}
-      <section className="bg-secondary/50 py-20">
-        <div className="container-luxe">
-          <div className="mb-10 text-center">
+      {/* Options — organic shapes */}
+      <section className="relative py-24 watercolor-sage overflow-hidden">
+        <GoldFlakes count={8} />
+        <div className="container-luxe relative z-10">
+          <div className="mb-14 text-center">
             <p className="eyebrow">Product Options</p>
             <h2 className="mt-2 font-display text-3xl sm:text-4xl">Ways to Keep Your Bouquet</h2>
+            <BrushDivider className="mt-5" />
           </div>
-          <div className="grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4">
-            {options.map((o) => (
-              <div key={o.title} className="overflow-hidden rounded-2xl border border-primary/25 bg-card">
-                <img src={o.image} alt={o.title} width={768} height={768} loading="lazy" className="aspect-square w-full object-cover" />
-                <div className="p-4">
+          <div className="grid grid-cols-2 gap-6 sm:gap-8 lg:grid-cols-4">
+            {options.map((o, i) => (
+              <div key={o.title} className="resin-card resin-card-hover rounded-[2rem] overflow-hidden">
+                <div className="overflow-hidden resin-reveal" style={{ borderRadius: resinShapes[i % resinShapes.length] }}>
+                  <img src={o.image} alt={o.title} width={768} height={768} loading="lazy" className="aspect-square w-full object-cover transition-transform duration-700 hover:scale-[1.05]" />
+                </div>
+                <div className="p-5">
                   <h3 className="font-display text-lg">{o.title}</h3>
                   <p className="mt-1 text-sm text-muted-foreground">{o.text}</p>
                 </div>
@@ -109,10 +126,11 @@ function WeddingPage() {
       </section>
 
       {/* How to send */}
-      <section className="container-luxe py-20">
-        <div className="mb-10 text-center">
+      <section className="container-luxe py-24 resin-section">
+        <div className="mb-14 text-center">
           <p className="eyebrow">How to Send Flowers</p>
           <h2 className="mt-2 font-display text-3xl sm:text-4xl">Three Gentle Steps</h2>
+          <BrushDivider className="mt-5" />
         </div>
         <div className="grid gap-8 md:grid-cols-3">
           {[
@@ -120,9 +138,9 @@ function WeddingPage() {
             { n: "02", t: "Pack With Care", d: "Wrap stems in damp tissue, box the bouquet, and courier it to us within 3–5 days." },
             { n: "03", t: "We Take Over", d: "We dry, arrange, and cast your flowers by hand — and share updates along the way." },
           ].map((s) => (
-            <div key={s.n} className="rounded-2xl border border-primary/25 bg-card p-7 text-center">
+            <div key={s.n} className="resin-card rounded-[2rem] p-8 text-center resin-card-hover gold-flakes">
               <p className="font-display text-3xl text-primary">{s.n}</p>
-              <h3 className="mt-3 font-display text-xl">{s.t}</h3>
+              <h3 className="mt-3 font-display text-xl">{s.title || s.t}</h3>
               <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{s.d}</p>
             </div>
           ))}
@@ -130,15 +148,17 @@ function WeddingPage() {
       </section>
 
       {/* Inquiry form */}
-      <section className="bg-secondary/50 py-20">
-        <div className="container-luxe max-w-2xl">
+      <section className="relative py-24 watercolor-gold overflow-hidden">
+        <GoldFlakes count={8} />
+        <div className="container-luxe max-w-2xl relative z-10">
           <div className="mb-8 text-center">
             <p className="eyebrow">Pricing Inquiry</p>
             <h2 className="mt-2 font-display text-3xl">Request a Price Guide</h2>
+            <BrushDivider className="mt-5" />
           </div>
           {sent ? (
-            <div className="rounded-3xl border border-primary/25 bg-card p-10 text-center">
-              <div className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-secondary">
+            <div className="resin-card rounded-[2rem] p-10 text-center">
+              <div className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-secondary/80">
                 <Check className="h-6 w-6 text-primary" />
               </div>
               <p className="mt-5 font-display text-xl">Thank you.</p>
@@ -154,7 +174,7 @@ function WeddingPage() {
             </div>
           ) : (
             <form
-              className="rounded-3xl border border-primary/25 bg-card p-7 sm:p-9"
+              className="resin-card rounded-[2rem] p-7 sm:p-9"
               onSubmit={(e) => {
                 e.preventDefault();
                 setSent(true);
@@ -171,7 +191,7 @@ function WeddingPage() {
                 value={form.details}
                 onChange={(e) => setForm({ ...form, details: e.target.value })}
                 rows={4}
-                className="mt-3 w-full rounded-xl border border-input bg-card px-4 py-3 text-sm outline-none focus:border-primary"
+                className="mt-3 w-full rounded-xl border border-primary/25 bg-card/80 backdrop-blur-sm px-4 py-3 text-sm outline-none focus:border-primary transition-shadow focus:shadow-[0_0_16px_rgba(183,155,108,0.12)]"
               />
               <button type="submit" className="btn-gold mt-5 w-full">Send Inquiry</button>
             </form>
@@ -180,20 +200,21 @@ function WeddingPage() {
       </section>
 
       {/* FAQs */}
-      <section className="container-luxe max-w-3xl py-20">
-        <div className="mb-8 text-center">
+      <section className="container-luxe max-w-3xl py-24 resin-section">
+        <div className="mb-10 text-center">
           <p className="eyebrow">Questions</p>
           <h2 className="mt-2 font-display text-3xl">Wedding Preservation FAQs</h2>
+          <BrushDivider className="mt-5" />
         </div>
         <div className="space-y-3">
           {faqs.map((f, i) => (
-            <div key={f.q} className="rounded-2xl border border-primary/25 bg-card">
+            <div key={f.q} className="resin-card rounded-[1.5rem] overflow-hidden transition-all">
               <button
                 onClick={() => setOpenFaq(openFaq === i ? null : i)}
                 className="flex w-full items-center justify-between gap-4 px-6 py-4.5 text-left font-medium"
               >
                 {f.q}
-                <span className="text-primary">{openFaq === i ? "−" : "+"}</span>
+                <span className="text-primary text-lg">{openFaq === i ? "−" : "+"}</span>
               </button>
               {openFaq === i && (
                 <p className="px-6 pb-5 text-sm leading-relaxed text-muted-foreground">{f.a}</p>

@@ -8,18 +8,15 @@ import {
   Star,
 } from "lucide-react";
 import hero from "@/assets/hero.jpg";
-import story from "@/assets/story.jpg";
 import weddingHero from "@/assets/wedding-hero.jpg";
-import packaging from "@/assets/packaging.jpg";
-import catJewelry from "@/assets/cat-jewelry.jpg";
-import catKeepsakes from "@/assets/cat-keepsakes.jpg";
 import catCustom from "@/assets/cat-custom.jpg";
-import catDecor from "@/assets/cat-decor.jpg";
+
 import { categories, products } from "@/data/products";
 import { ProductCard } from "@/components/ProductCard";
 import { waLink } from "@/lib/site";
+import { GoldFlakes, BrushDivider, ResinFrame } from "@/components/ResinDecorations";
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute("/")(({
   head: () => ({
     meta: [
       { title: "Gul & Grace | Handmade Resin Art & Preserved Flower Keepsakes in Pakistan" },
@@ -33,7 +30,7 @@ export const Route = createFileRoute("/")({
     links: [{ rel: "canonical", href: "/" }],
   }),
   component: Index,
-});
+}));
 
 const steps = [
   { icon: Gem, title: "Choose Your Piece", text: "Pick from jewelry, keepsakes, trays, or a fully custom design." },
@@ -57,12 +54,14 @@ const reviews = [
   },
 ];
 
-const reels = [
-  { image: story, label: "Resin pouring" },
-  { image: catCustom, label: "Flower placement" },
-  { image: packaging, label: "Packing orders" },
-  { image: catKeepsakes, label: "Before vs after" },
-  { image: catDecor, label: "Customer unboxing" },
+/** Organic resin shapes for category cards */
+const catShapes = [
+  '30% 70% 66% 34% / 40% 30% 70% 60%',
+  '60% 40% 30% 70% / 50% 60% 40% 50%',
+  '40% 60% 55% 45% / 35% 55% 45% 65%',
+  '50% 50% 40% 60% / 60% 40% 60% 40%',
+  '45% 55% 50% 50% / 55% 45% 55% 45%',
+  '55% 45% 45% 55% / 40% 60% 40% 60%',
 ];
 
 function Index() {
@@ -70,7 +69,7 @@ function Index() {
 
   return (
     <main>
-      {/* Hero */}
+      {/* ──── Hero ──── */}
       <section className="relative overflow-hidden">
         <img
           src={hero}
@@ -79,12 +78,15 @@ function Index() {
           height={1080}
           className="absolute inset-0 h-full w-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/70 to-transparent" />
+        {/* Watercolor wash over hero */}
+        <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/75 to-transparent" />
+        <div className="absolute inset-0 watercolor-blush opacity-60" />
+        <GoldFlakes count={12} />
         <div className="container-luxe relative flex min-h-[82vh] items-center py-20">
           <div className="max-w-xl fade-in-up">
             <p className="eyebrow">Preserving Memories. Crafting Elegance.</p>
             <h1 className="mt-4 font-display text-4xl leading-[1.15] sm:text-5xl lg:text-6xl">
-              Some Memories Fade. <em className="text-primary">Yours Don't.</em>
+              Some Memories Fade. <em className="text-primary brush-underline">Yours Don't.</em>
             </h1>
             <p className="mt-5 max-w-md text-base leading-relaxed text-muted-foreground sm:text-lg">
               Handcrafted resin keepsakes made to preserve flowers, emotions,
@@ -98,10 +100,11 @@ function Index() {
         </div>
       </section>
 
-      {/* Brand story preview */}
-      <section className="bg-secondary/50 py-20">
-        <div className="container-luxe max-w-3xl text-center">
-          <div className="divider-gold mb-6" />
+      {/* ──── Brand Story Preview ──── */}
+      <section className="relative py-20 watercolor-blush">
+        <GoldFlakes count={6} />
+        <div className="container-luxe max-w-3xl text-center relative z-10">
+          <BrushDivider className="mb-6" />
           <h2 className="font-display text-2xl leading-relaxed sm:text-3xl">
             "We don't just make resin art. We preserve the flowers, notes, and
             moments you never want to lose."
@@ -110,34 +113,45 @@ function Index() {
         </div>
       </section>
 
-      {/* Categories */}
-      <section className="container-luxe py-20">
-        <div className="mb-10 text-center">
+      {/* ──── Categories — Organic Resin Shapes ──── */}
+      <section className="container-luxe py-24 resin-section">
+        <div className="mb-14 text-center">
           <p className="eyebrow">Collections</p>
           <h2 className="mt-2 font-display text-3xl sm:text-4xl">What Would You Like to Preserve?</h2>
+          <BrushDivider className="mt-5" />
         </div>
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {categories.map((c) => (
+        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          {categories.map((c, i) => (
             <Link
               key={c.slug}
               to="/shop"
               search={{ category: c.slug }}
-              className="group overflow-hidden rounded-2xl border border-primary/25 bg-card transition-shadow hover:shadow-[0_16px_40px_-20px_rgba(183,155,108,0.5)]"
+              className="group relative"
             >
-              <div className="overflow-hidden">
+              {/* Organic shaped image container */}
+              <div className="relative overflow-hidden mx-auto w-full max-w-[320px] aspect-square resin-reveal" style={{ borderRadius: catShapes[i % catShapes.length] }}>
                 <img
                   src={c.image}
                   alt={c.title}
                   width={768}
                   height={960}
                   loading="lazy"
-                  className="aspect-[4/4.4] w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.06]"
+                />
+                {/* Glossy resin overlay */}
+                <div
+                  className="absolute inset-0 pointer-events-none"
+                  style={{
+                    background: 'linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.05) 35%, transparent 60%, rgba(183,155,108,0.12) 100%)',
+                    borderRadius: catShapes[i % catShapes.length],
+                  }}
                 />
               </div>
-              <div className="p-5">
+              {/* Text below */}
+              <div className="mt-5 text-center px-3">
                 <h3 className="font-display text-xl">{c.title}</h3>
                 <p className="mt-1.5 text-sm text-muted-foreground">{c.description}</p>
-                <span className="mt-3 inline-block text-[0.7rem] font-medium uppercase tracking-[0.2em] text-primary">
+                <span className="mt-3 inline-block text-[0.7rem] font-medium uppercase tracking-[0.2em] text-primary transition-all group-hover:tracking-[0.3em]">
                   Explore →
                 </span>
               </div>
@@ -146,34 +160,46 @@ function Index() {
         </div>
       </section>
 
-      {/* Best sellers */}
-      <section className="bg-card py-20">
-        <div className="container-luxe">
-          <div className="mb-10 text-center">
+      {/* ──── Best Sellers ──── */}
+      <section className="relative py-24 watercolor-gold">
+        <GoldFlakes count={10} />
+        <div className="container-luxe relative z-10">
+          <div className="mb-14 text-center">
             <p className="eyebrow">Most Loved</p>
             <h2 className="mt-2 font-display text-3xl sm:text-4xl">Best Sellers</h2>
             <p className="mt-3 text-sm text-muted-foreground">Made slowly. Finished carefully. Preserved forever.</p>
+            <BrushDivider className="mt-5" />
           </div>
-          <div className="grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4">
-            {bestSellers.map((p) => (
-              <ProductCard key={p.slug} product={p} />
+          <div className="grid grid-cols-2 gap-5 sm:gap-7 lg:grid-cols-4">
+            {bestSellers.map((p, i) => (
+              <ProductCard key={p.slug} product={p} index={i} />
             ))}
           </div>
-          <div className="mt-10 text-center">
+          <div className="mt-12 text-center">
             <Link to="/shop" className="btn-outline-gold">View All Products</Link>
           </div>
         </div>
       </section>
 
-      {/* Custom order */}
-      <section className="container-luxe grid items-center gap-10 py-20 lg:grid-cols-2">
-        <div className="overflow-hidden rounded-3xl gold-border">
-          <img src={catCustom} alt="Custom resin memory keepsake with handwritten note and preserved rose" width={768} height={960} loading="lazy" className="w-full object-cover" />
+      {/* ──── Custom Order — Resin blob image ──── */}
+      <section className="container-luxe grid items-center gap-12 py-24 lg:grid-cols-2 resin-section">
+        <div className="mx-auto w-full max-w-[420px]">
+          <ResinFrame variant={2} className="aspect-square">
+            <img
+              src={catCustom}
+              alt="Custom resin memory keepsake with handwritten note and preserved rose"
+              width={768}
+              height={960}
+              loading="lazy"
+              className="h-full w-full object-cover"
+            />
+          </ResinFrame>
         </div>
-        <div>
+        <div className="relative">
+          <GoldFlakes count={5} />
           <p className="eyebrow">Custom Orders</p>
           <h2 className="mt-3 font-display text-3xl leading-tight sm:text-4xl">
-            Create a Keepsake That Belongs Only to You.
+            Create a Keepsake That <span className="brush-underline">Belongs Only to You.</span>
           </h2>
           <p className="mt-4 leading-relaxed text-muted-foreground">
             Send us your flowers, names, dates, colors, photos, initials, or a
@@ -184,17 +210,26 @@ function Index() {
         </div>
       </section>
 
-      {/* How it works */}
-      <section className="bg-secondary/50 py-20">
-        <div className="container-luxe">
-          <div className="mb-12 text-center">
+      {/* ──── How It Works ──── */}
+      <section className="relative py-24 watercolor-sage">
+        <GoldFlakes count={6} />
+        <div className="container-luxe relative z-10">
+          <div className="mb-14 text-center">
             <p className="eyebrow">The Process</p>
             <h2 className="mt-2 font-display text-3xl sm:text-4xl">How It Works</h2>
+            <BrushDivider className="mt-5" />
           </div>
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
             {steps.map((s, i) => (
-              <div key={s.title} className="text-center">
-                <div className="mx-auto grid h-16 w-16 place-items-center rounded-full border border-primary/40 bg-card">
+              <div
+                key={s.title}
+                className="text-center resin-card p-7 resin-card-hover gold-flakes"
+                style={{ borderRadius: catShapes[i % catShapes.length] }}
+              >
+                <div
+                  className="mx-auto grid h-16 w-16 place-items-center border border-primary/40 bg-background/80 backdrop-blur-sm"
+                  style={{ borderRadius: catShapes[(i + 2) % catShapes.length] }}
+                >
                   <s.icon className="h-6 w-6 text-primary" strokeWidth={1.25} />
                 </div>
                 <p className="mt-4 text-[0.65rem] uppercase tracking-[0.24em] text-primary">Step {i + 1}</p>
@@ -206,15 +241,17 @@ function Index() {
         </div>
       </section>
 
-      {/* Wedding preservation */}
+      {/* ──── Wedding Preservation ──── */}
       <section className="relative overflow-hidden">
         <img src={weddingHero} alt="Preserved bridal bouquet of blush roses in a clear resin block beside wedding rings" width={1920} height={1080} loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-l from-background/95 via-background/70 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-l from-background/95 via-background/75 to-transparent" />
+        <div className="absolute inset-0 watercolor-blush opacity-40" />
+        <GoldFlakes count={8} />
         <div className="container-luxe relative flex min-h-[65vh] items-center justify-end py-20">
           <div className="max-w-lg text-center sm:text-right flex flex-col items-center sm:items-end w-full">
             <p className="eyebrow">For Brides</p>
             <h2 className="mt-3 font-display text-3xl leading-tight sm:text-4xl">
-              Preserve Your Wedding Flowers Forever.
+              Preserve Your Wedding Flowers <span className="brush-underline">Forever.</span>
             </h2>
             <p className="mt-4 leading-relaxed text-muted-foreground">
               Nikkah flowers, bridal bouquets, engagement roses — preserved in
@@ -228,34 +265,22 @@ function Index() {
         </div>
       </section>
 
-      {/* Gallery preview */}
-      <section className="container-luxe py-20">
-        <div className="mb-10 text-center">
-          <p className="eyebrow">Inspiration</p>
-          <h2 className="mt-2 font-display text-3xl sm:text-4xl">From Our Studio</h2>
-        </div>
-        <div className="columns-2 gap-4 sm:columns-3 [&>a]:mb-4 [&>a]:block">
-          {[catJewelry, story, catKeepsakes, packaging, catDecor, catCustom].map((img, i) => (
-            <Link key={i} to="/gallery" className="overflow-hidden rounded-2xl">
-              <img src={img} alt="Gul & Grace studio and product gallery" width={768} height={960} loading="lazy" className="w-full rounded-2xl object-cover transition-transform duration-700 hover:scale-[1.03]" />
-            </Link>
-          ))}
-        </div>
-        <div className="mt-8 text-center">
-          <Link to="/gallery" className="btn-outline-gold">View Full Gallery</Link>
-        </div>
-      </section>
-
-      {/* Reviews */}
-      <section className="bg-card py-20">
-        <div className="container-luxe">
-          <div className="mb-10 text-center">
+      {/* ──── Reviews ──── */}
+      <section className="relative py-24 watercolor-blush">
+        <GoldFlakes count={8} />
+        <div className="container-luxe relative z-10">
+          <div className="mb-14 text-center">
             <p className="eyebrow">Kind Words</p>
             <h2 className="mt-2 font-display text-3xl sm:text-4xl">From Our Customers</h2>
+            <BrushDivider className="mt-5" />
           </div>
-          <div className="grid gap-6 md:grid-cols-3">
-            {reviews.map((r) => (
-              <div key={r.name} className="rounded-2xl border border-primary/25 bg-background p-7">
+          <div className="grid gap-7 md:grid-cols-3">
+            {reviews.map((r, i) => (
+              <div
+                key={r.name}
+                className="resin-card rounded-[2rem] p-8 resin-card-hover relative"
+                style={{ borderRadius: catShapes[i % 3] }}
+              >
                 <div className="flex gap-1 text-primary">
                   {Array.from({ length: 5 }).map((_, i) => (
                     <Star key={i} className="h-4 w-4 fill-current" />
@@ -263,7 +288,7 @@ function Index() {
                 </div>
                 <p className="mt-4 text-sm leading-relaxed text-muted-foreground">"{r.text}"</p>
                 <div className="mt-5 flex items-center gap-3">
-                  <div className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-secondary font-display text-primary">
+                  <div className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-secondary/80 font-display text-primary">
                     {r.name[0]}
                   </div>
                   <p className="text-sm font-medium">{r.name}</p>
@@ -274,52 +299,7 @@ function Index() {
         </div>
       </section>
 
-      {/* Social */}
-      <section className="container-luxe py-20">
-        <div className="mb-10 text-center">
-          <p className="eyebrow">Instagram · TikTok</p>
-          <h2 className="mt-2 font-display text-3xl sm:text-4xl">Follow the Making Process</h2>
-        </div>
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-5">
-          {reels.map((r) => (
-            <a
-              key={r.label}
-              href="https://instagram.com/gulngracepk"
-              target="_blank"
-              rel="noreferrer"
-              className="group relative overflow-hidden rounded-2xl"
-            >
-              <img src={r.image} alt={r.label} width={768} height={960} loading="lazy" className="aspect-[3/4] w-full object-cover transition-transform duration-700 group-hover:scale-[1.05]" />
-              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-foreground/70 to-transparent p-3">
-                <p className="text-xs font-medium tracking-wide text-primary-foreground">{r.label}</p>
-              </div>
-            </a>
-          ))}
-        </div>
-      </section>
 
-      {/* Newsletter */}
-      <section className="bg-secondary/50 py-20">
-        <div className="container-luxe max-w-xl text-center">
-          <h2 className="font-display text-3xl sm:text-4xl">Join the Memory Club</h2>
-          <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-            Get early access to new collections, gift ideas, and exclusive
-            custom order slots.
-          </p>
-          <form
-            className="mt-7 flex flex-col gap-3 sm:flex-row"
-            onSubmit={(e) => e.preventDefault()}
-          >
-            <input
-              type="email"
-              required
-              placeholder="Your email address"
-              className="h-12 flex-1 rounded-full border border-input bg-card px-5 text-sm outline-none focus:border-primary"
-            />
-            <button type="submit" className="btn-gold">Subscribe</button>
-          </form>
-        </div>
-      </section>
 
       {/* Sticky WhatsApp on mobile */}
       <a
@@ -327,7 +307,7 @@ function Index() {
         target="_blank"
         rel="noreferrer"
         aria-label="Chat on WhatsApp"
-        className="fixed bottom-5 right-5 z-40 grid h-13 w-13 place-items-center rounded-full bg-primary p-3.5 text-primary-foreground shadow-lg md:hidden"
+        className="fixed bottom-5 right-5 z-40 grid h-13 w-13 place-items-center rounded-full bg-primary p-3.5 text-primary-foreground shadow-lg resin-pulse md:hidden"
       >
         <MessageCircle className="h-6 w-6" />
       </a>

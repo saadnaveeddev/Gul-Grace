@@ -76,6 +76,50 @@
   --border: oklch(0.92 0.012 85);
   --input: oklch(0.92 0.012 85);
   --ring: oklch(0.7 0.055 85);
+  /* Resin & artistic specific */
+  --resin-glow: rgba(183, 155, 108, 0.18);
+  --brush-shadow: rgba(244, 224, 224, 0.5);
+}
+
+/* ─── Gold flake particle animation ─── */
+@keyframes goldFlakeFloat {
+  0% { transform: translateY(0) rotate(0deg) scale(1); opacity: 0; }
+  15% { opacity: 1; }
+  50% { transform: translateY(-40vh) rotate(180deg) scale(0.6); opacity: 0.8; }
+  100% { transform: translateY(-80vh) rotate(360deg) scale(0.3); opacity: 0; }
+}
+
+@keyframes goldFlakeShimmer {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+@keyframes resinPulse {
+  0%, 100% { box-shadow: 0 0 20px rgba(183, 155, 108, 0.08); }
+  50% { box-shadow: 0 0 40px rgba(183, 155, 108, 0.2), 0 0 80px rgba(244, 224, 224, 0.1); }
+}
+
+@keyframes brushReveal {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0 0% 0 0); }
+}
+
+@keyframes resinDrip {
+  0% { border-radius: 42% 58% 60% 40% / 45% 55% 45% 55%; }
+  25% { border-radius: 55% 45% 40% 60% / 50% 40% 60% 50%; }
+  50% { border-radius: 48% 52% 55% 45% / 42% 58% 42% 58%; }
+  75% { border-radius: 52% 48% 45% 55% / 55% 45% 55% 45%; }
+  100% { border-radius: 42% 58% 60% 40% / 45% 55% 45% 55%; }
+}
+
+@keyframes floatSubtle {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes glossySheen {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
 }
 
 @layer base {
@@ -92,6 +136,12 @@
     color: var(--color-foreground);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
+    /* Subtle watercolor paper texture via gradient noise */
+    background-image:
+      radial-gradient(ellipse at 15% 10%, rgba(244, 224, 224, 0.25) 0%, transparent 50%),
+      radial-gradient(ellipse at 85% 20%, rgba(183, 155, 108, 0.08) 0%, transparent 40%),
+      radial-gradient(ellipse at 50% 80%, rgba(163, 181, 166, 0.1) 0%, transparent 50%);
+    background-attachment: fixed;
   }
 
   h1, h2, h3, h4 {
@@ -99,6 +149,7 @@
   }
 }
 
+/* ─── Container ─── */
 @utility container-luxe {
   margin-inline: auto;
   width: 100%;
@@ -109,26 +160,45 @@
   }
 }
 
+/* ─── Gold border with resin glow ─── */
 @utility gold-border {
   border: 1px solid color-mix(in oklab, var(--gold) 45%, transparent);
+  box-shadow:
+    0 0 20px rgba(183, 155, 108, 0.08),
+    inset 0 0 30px rgba(255, 255, 255, 0.15);
 }
 
+/* ─── Buttons ─── */
 @utility btn-gold {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  background: var(--gold);
+  background: linear-gradient(135deg, var(--gold) 0%, color-mix(in oklab, var(--gold) 85%, #D4A574) 50%, var(--gold) 100%);
   color: var(--primary-foreground);
   font-size: 0.8rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   padding: 0.9rem 2rem;
   border-radius: 9999px;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+  overflow: hidden;
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.25) 50%, transparent 100%);
+    background-size: 200% 100%;
+    animation: glossySheen 3s ease-in-out infinite;
+    pointer-events: none;
+  }
   &:hover {
-    background: color-mix(in oklab, var(--gold) 88%, black);
-    box-shadow: 0 8px 24px -8px color-mix(in oklab, var(--gold) 60%, transparent);
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, color-mix(in oklab, var(--gold) 90%, black) 0%, var(--gold) 100%);
+    box-shadow:
+      0 8px 32px -8px color-mix(in oklab, var(--gold) 50%, transparent),
+      0 2px 8px rgba(0,0,0,0.08);
   }
 }
 
@@ -145,12 +215,15 @@
   text-transform: uppercase;
   padding: 0.9rem 2rem;
   border-radius: 9999px;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   &:hover {
     background: color-mix(in oklab, var(--gold) 12%, transparent);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(183, 155, 108, 0.15);
   }
 }
 
+/* ─── Eyebrow text ─── */
 @utility eyebrow {
   font-size: 0.7rem;
   letter-spacing: 0.28em;
@@ -159,13 +232,15 @@
   font-weight: 500;
 }
 
+/* ─── Gold divider ─── */
 @utility divider-gold {
   width: 3.5rem;
   height: 1px;
-  background: var(--gold);
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
   margin-inline: auto;
 }
 
+/* ─── Fade in up ─── */
 @utility fade-in-up {
   animation: fadeInUp 0.9s ease both;
 }
@@ -179,4 +254,256 @@
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+/* ═══════════════════════════════════════════
+   RESIN ART SYSTEM — Organic shapes & textures
+   ═══════════════════════════════════════════ */
+
+/* Resin blob shape — organic, flowing borders */
+@utility resin-blob {
+  border-radius: 42% 58% 60% 40% / 45% 55% 45% 55%;
+  animation: resinDrip 12s ease-in-out infinite;
+}
+
+/* Resin card — glossy translucent with inner glow */
+@utility resin-card {
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.85) 0%,
+    rgba(255, 255, 255, 0.6) 40%,
+    rgba(244, 224, 224, 0.3) 100%
+  );
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(183, 155, 108, 0.2);
+  box-shadow:
+    0 8px 32px rgba(183, 155, 108, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    inset 0 -1px 0 rgba(183, 155, 108, 0.05);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@utility resin-card-hover {
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow:
+      0 20px 60px rgba(183, 155, 108, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.8),
+      0 0 40px rgba(244, 224, 224, 0.15);
+  }
+}
+
+/* Glossy resin overlay — the sheen on top of a resin piece */
+@utility resin-gloss {
+  position: relative;
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.35) 0%,
+      rgba(255, 255, 255, 0.05) 30%,
+      transparent 60%,
+      rgba(255, 255, 255, 0.1) 100%
+    );
+    pointer-events: none;
+    border-radius: inherit;
+  }
+}
+
+/* Brush stroke mask shapes for images */
+@utility brush-mask-1 {
+  clip-path: polygon(
+    3% 0%, 97% 2%, 100% 5%, 98% 95%, 95% 100%, 5% 98%, 0% 95%, 2% 5%
+  );
+}
+
+@utility brush-mask-2 {
+  clip-path: polygon(
+    5% 3%, 95% 0%, 100% 8%, 97% 92%, 93% 100%, 7% 97%, 0% 90%, 3% 8%
+  );
+}
+
+@utility brush-mask-3 {
+  clip-path: polygon(
+    2% 5%, 98% 0%, 100% 3%, 95% 97%, 90% 100%, 10% 98%, 0% 92%, 5% 8%
+  );
+}
+
+@utility brush-mask-4 {
+  clip-path: polygon(
+    8% 0%, 92% 4%, 100% 10%, 96% 88%, 88% 100%, 12% 96%, 0% 85%, 4% 12%
+  );
+}
+
+/* Organic resin shape containers */
+@utility resin-shape-1 {
+  border-radius: 30% 70% 66% 34% / 40% 30% 70% 60%;
+}
+
+@utility resin-shape-2 {
+  border-radius: 60% 40% 30% 70% / 50% 60% 40% 50%;
+}
+
+@utility resin-shape-3 {
+  border-radius: 40% 60% 55% 45% / 35% 55% 45% 65%;
+}
+
+@utility resin-shape-4 {
+  border-radius: 50% 50% 40% 60% / 60% 40% 60% 40%;
+}
+
+/* Watercolor section backgrounds */
+@utility watercolor-blush {
+  background:
+    radial-gradient(ellipse at 20% 30%, rgba(244, 224, 224, 0.45) 0%, transparent 55%),
+    radial-gradient(ellipse at 80% 70%, rgba(244, 224, 224, 0.3) 0%, transparent 45%),
+    radial-gradient(ellipse at 50% 50%, rgba(183, 155, 108, 0.05) 0%, transparent 60%);
+}
+
+@utility watercolor-sage {
+  background:
+    radial-gradient(ellipse at 30% 60%, rgba(163, 181, 166, 0.2) 0%, transparent 50%),
+    radial-gradient(ellipse at 70% 30%, rgba(244, 224, 224, 0.2) 0%, transparent 45%);
+}
+
+@utility watercolor-gold {
+  background:
+    radial-gradient(ellipse at 40% 20%, rgba(183, 155, 108, 0.12) 0%, transparent 50%),
+    radial-gradient(ellipse at 60% 80%, rgba(244, 224, 224, 0.2) 0%, transparent 50%);
+}
+
+/* Gold flake decoration — tiny sparkle dots */
+@utility gold-flakes {
+  position: relative;
+  &::before {
+    content: '';
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: linear-gradient(135deg, #D4AF37, #F4E4BC);
+    border-radius: 50%;
+    top: 15%;
+    right: 12%;
+    box-shadow:
+      22px 30px 0 1px rgba(212, 175, 55, 0.6),
+      -15px 55px 0 0.5px rgba(212, 175, 55, 0.4),
+      40px -10px 0 1.5px rgba(212, 175, 55, 0.5),
+      -30px 15px 0 0.5px rgba(244, 228, 188, 0.7),
+      55px 45px 0 1px rgba(212, 175, 55, 0.3);
+    animation: goldFlakeShimmer 3s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 2;
+  }
+}
+
+/* Resin pour drip edge on sections */
+@utility resin-drip-top {
+  position: relative;
+  &::before {
+    content: '';
+    position: absolute;
+    top: -20px;
+    left: 0;
+    right: 0;
+    height: 40px;
+    background: inherit;
+    clip-path: polygon(
+      0% 50%, 3% 55%, 6% 45%, 10% 60%, 14% 48%, 18% 55%, 22% 42%,
+      26% 58%, 30% 45%, 34% 52%, 38% 40%, 42% 55%, 46% 48%, 50% 58%,
+      54% 42%, 58% 55%, 62% 45%, 66% 60%, 70% 48%, 74% 55%, 78% 42%,
+      82% 58%, 86% 45%, 90% 52%, 94% 42%, 97% 50%, 100% 45%, 100% 100%, 0% 100%
+    );
+    z-index: 1;
+  }
+}
+
+/* Floating animation for elements */
+@utility float-subtle {
+  animation: floatSubtle 6s ease-in-out infinite;
+}
+
+/* Resin pulse glow animation */
+@utility resin-pulse {
+  animation: resinPulse 4s ease-in-out infinite;
+}
+
+/* Product image emerging from resin — organic shaped container */
+@utility resin-reveal {
+  position: relative;
+  overflow: hidden;
+  &::after {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.5) 0%,
+      transparent 30%,
+      transparent 70%,
+      rgba(183, 155, 108, 0.15) 100%
+    );
+    pointer-events: none;
+    border-radius: inherit;
+    z-index: 1;
+  }
+}
+
+/* Preserved flower emerging effect */
+@utility emerge-from-resin {
+  position: relative;
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      circle at 50% 110%,
+      rgba(255, 255, 255, 0.6) 0%,
+      rgba(255, 255, 255, 0.1) 40%,
+      transparent 70%
+    );
+    pointer-events: none;
+    z-index: 1;
+    border-radius: inherit;
+  }
+}
+
+/* Brush stroke text underline decoration */
+@utility brush-underline {
+  position: relative;
+  display: inline;
+  background-image: linear-gradient(
+    120deg,
+    rgba(244, 224, 224, 0.5) 0%,
+    rgba(183, 155, 108, 0.25) 100%
+  );
+  background-repeat: no-repeat;
+  background-size: 100% 30%;
+  background-position: 0 88%;
+}
+
+/* Section with soft resin border on top and bottom */
+@utility resin-section {
+  position: relative;
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    left: 5%;
+    right: 5%;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(183, 155, 108, 0.3) 20%,
+      rgba(183, 155, 108, 0.5) 50%,
+      rgba(183, 155, 108, 0.3) 80%,
+      transparent
+    );
+  }
+  &::before { top: 0; }
+  &::after { bottom: 0; }
 }

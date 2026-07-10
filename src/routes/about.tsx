@@ -3,6 +3,7 @@ import about from "@/assets/about.jpg";
 import story from "@/assets/story.jpg";
 import packaging from "@/assets/packaging.jpg";
 import logo from "@/assets/logo.png";
+import { BrushDivider, GoldFlakes, ResinFrame } from "@/components/ResinDecorations";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -25,19 +26,24 @@ export const Route = createFileRoute("/about")({
 function AboutPage() {
   return (
     <main>
-      <section className="container-luxe py-20 text-center">
-        <img src={logo} alt="Gul & Grace logo" width={80} height={80} className="mx-auto h-20 w-20 object-contain" />
-        <p className="eyebrow mt-6">Our Story</p>
-        <h1 className="mx-auto mt-3 max-w-2xl font-display text-3xl leading-snug sm:text-4xl">
-          For People Who Believe Memories Deserve More Than a Photograph
-        </h1>
-        <div className="divider-gold mt-7" />
+      {/* Hero heading */}
+      <section className="relative py-20 watercolor-blush overflow-hidden">
+        <GoldFlakes count={10} />
+        <div className="container-luxe text-center relative z-10">
+          <img src={logo} alt="Gul & Grace logo" width={80} height={80} className="mx-auto h-20 w-20 object-contain" />
+          <p className="eyebrow mt-6">Our Story</p>
+          <h1 className="mx-auto mt-3 max-w-2xl font-display text-3xl leading-snug sm:text-4xl">
+            For People Who Believe Memories Deserve More Than a <span className="brush-underline">Photograph</span>
+          </h1>
+          <BrushDivider className="mt-7" />
+        </div>
       </section>
 
-      <section className="container-luxe grid items-center gap-10 pb-20 lg:grid-cols-2">
-        <div className="overflow-hidden rounded-3xl gold-border">
+      {/* Story + Image */}
+      <section className="container-luxe grid items-center gap-12 py-24 lg:grid-cols-2 resin-section">
+        <ResinFrame variant={1} className="w-full">
           <img src={about} alt="Gul & Grace artisan workspace with dried flowers, resin molds, and gold flakes" width={1024} height={1280} loading="lazy" className="w-full object-cover" />
-        </div>
+        </ResinFrame>
         <div className="space-y-5 leading-relaxed text-muted-foreground">
           <p className="font-display text-xl text-foreground">
             Gul & Grace was created for people who believe memories deserve
@@ -63,28 +69,31 @@ function AboutPage() {
         </div>
       </section>
 
-      <section className="bg-secondary/50 py-20">
-        <div className="container-luxe grid gap-10 lg:grid-cols-2">
-          <div className="overflow-hidden rounded-3xl">
+      {/* How we work */}
+      <section className="relative py-24 watercolor-sage overflow-hidden">
+        <GoldFlakes count={8} />
+        <div className="container-luxe grid gap-12 lg:grid-cols-2 relative z-10">
+          <ResinFrame variant={3} className="w-full">
             <img src={story} alt="Hands placing dried flowers into resin molds" width={1024} height={768} loading="lazy" className="w-full object-cover" />
-          </div>
+          </ResinFrame>
           <div className="flex flex-col justify-center">
             <p className="eyebrow">How We Work</p>
-            <h2 className="mt-3 font-display text-3xl">Made Slowly. Finished Carefully. Preserved Forever.</h2>
+            <h2 className="mt-3 font-display text-3xl">Made Slowly. Finished Carefully. <span className="brush-underline">Preserved Forever.</span></h2>
             <ul className="mt-6 space-y-4 text-sm leading-relaxed text-muted-foreground">
-              <li><span className="font-medium text-foreground">Slow drying.</span> Flowers are dried naturally over 3–4 weeks to hold their true color.</li>
-              <li><span className="font-medium text-foreground">Hand arrangement.</span> Every petal is placed with tweezers, one at a time.</li>
-              <li><span className="font-medium text-foreground">Layered pouring.</span> Resin is poured in thin layers over days, never rushed.</li>
-              <li><span className="font-medium text-foreground">Careful finishing.</span> Sanded, polished, and inspected before it ever leaves our hands.</li>
+              <li className="resin-card rounded-xl p-4"><span className="font-medium text-foreground">Slow drying.</span> Flowers are dried naturally over 3–4 weeks to hold their true color.</li>
+              <li className="resin-card rounded-xl p-4"><span className="font-medium text-foreground">Hand arrangement.</span> Every petal is placed with tweezers, one at a time.</li>
+              <li className="resin-card rounded-xl p-4"><span className="font-medium text-foreground">Layered pouring.</span> Resin is poured in thin layers over days, never rushed.</li>
+              <li className="resin-card rounded-xl p-4"><span className="font-medium text-foreground">Careful finishing.</span> Sanded, polished, and inspected before it ever leaves our hands.</li>
             </ul>
           </div>
         </div>
       </section>
 
-      <section className="container-luxe grid items-center gap-10 py-20 lg:grid-cols-2">
+      {/* Packaging */}
+      <section className="container-luxe grid items-center gap-12 py-24 lg:grid-cols-2 resin-section">
         <div>
           <p className="eyebrow">The Unboxing</p>
-          <h2 className="mt-3 font-display text-3xl">Packaging That Feels Like a Gift</h2>
+          <h2 className="mt-3 font-display text-3xl">Packaging That Feels Like a <span className="brush-underline">Gift</span></h2>
           <p className="mt-4 leading-relaxed text-muted-foreground">
             Every order arrives wrapped in tissue, tied with gold ribbon, and
             sealed with a dried flower sprig — because receiving your memory
@@ -94,9 +103,9 @@ function AboutPage() {
             <Link to="/shop" className="btn-gold w-full sm:w-auto justify-center">Explore the Collection</Link>
           </div>
         </div>
-        <div className="overflow-hidden rounded-3xl gold-border">
+        <ResinFrame variant={4} className="w-full">
           <img src={packaging} alt="Premium Gul & Grace gift packaging with gold ribbon and dried flowers" width={768} height={768} loading="lazy" className="w-full object-cover" />
-        </div>
+        </ResinFrame>
       </section>
     </main>
   );
