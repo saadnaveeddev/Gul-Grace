@@ -32,7 +32,7 @@ export function Footer() {
             <li><Link to="/about" className="hover:text-primary">Our Story</Link></li>
             <li><Link to="/contact" className="hover:text-primary">Contact Us</Link></li>
             <li><Link to="/contact" className="hover:text-primary">Shipping & Care</Link></li>
-            <li><Link to="/cart" className="hover:text-primary">Cart & Checkout</Link></li>
+            <li><Link to="/cart" className="hover:text-primary">Inquiry List</Link></li>
           </ul>
         </div>
 
@@ -52,10 +52,10 @@ export function Footer() {
               <MessageCircle className="h-4 w-4" />
             </a>
           </div>
-          <p className="mt-5 text-xs uppercase tracking-[0.16em] text-muted-foreground">Payments</p>
+          {/* <p className="mt-5 text-xs uppercase tracking-[0.16em] text-muted-foreground">Payments</p>
           <p className="mt-2 text-sm text-muted-foreground">
             Cash on Delivery · Bank Transfer · Easypaisa / JazzCash
-          </p>
+          </p> */}
         </div>
       </div>
       <div className="border-t border-border py-5 text-center text-xs tracking-wide text-muted-foreground">

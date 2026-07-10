@@ -78,7 +78,7 @@ export const products: Product[] = [
   {
     slug: "preserved-flower-pendant",
     name: "Preserved Flower Pendant",
-    price: 2800,
+    price: 800,
     label: "Best Seller",
     image: prodPendant,
     category: "resin-jewelry",
@@ -93,7 +93,7 @@ export const products: Product[] = [
   {
     slug: "resin-floral-ring",
     name: "Resin Floral Ring",
-    price: 1900,
+    price: 400,
     label: "Customizable",
     image: prodRing,
     category: "resin-jewelry",
@@ -108,7 +108,7 @@ export const products: Product[] = [
   {
     slug: "custom-memory-keychain",
     name: "Custom Memory Keychain",
-    price: 1200,
+    price: 500,
     label: "Customizable",
     image: prodKeychain,
     category: "personalized-gifts",
